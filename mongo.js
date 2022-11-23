@@ -21,27 +21,27 @@ const Contact = mongoose.model('Contact', contactSchema)
 
 mongoose
   .connect(url)
-  .then((result) => {
+  .then(() => {
     if(!name) {
-        Contact.find({}).then(result => {
-            console.log('phonebook:')
-            result.forEach(contact => {
-                console.log(`${contact.name} ${contact.number}`)
-            })
-            mongoose.connection.close() 
+      Contact.find({}).then(result => {
+        console.log('phonebook:')
+        result.forEach(contact => {
+          console.log(`${contact.name} ${contact.number}`)
         })
+        mongoose.connection.close()
+      })
     } else {
-        const contact = new Contact({
-            name: name,
-            number: number
-        })    
-        return contact.save()
-    }    
-})
-.then(() => {
-    if (name) {
-        console.log(`added ${name} number ${number} to phonebook`)
-        mongoose.connection.close()        
+      const contact = new Contact({
+        name: name,
+        number: number
+      })
+      return contact.save()
     }
-})
-.catch(err => console.log(err))
+  })
+  .then(() => {
+    if (name) {
+      console.log(`added ${name} number ${number} to phonebook`)
+      mongoose.connection.close()
+    }
+  })
+  .catch(err => console.log(err))
